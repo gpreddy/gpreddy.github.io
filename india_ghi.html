@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map-canvas {
+        height: 100%;
+      }
+
+      .controls {
+  margin-top: 10px;
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  height: 32px;
+  outline: none;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+#legend {
+        background: #FFF;
+        padding: 5px;
+        margin: 2px;
+        font-size: 12px;
+        font-family: Arial, sans-serif;
+      }
+
+      .color {
+        border: 1px solid;
+        height: 12px;
+        width: 12px;
+        margin-right: 3px;
+        float: left;
+      }
+
+      .red {
+        background: #C00;
+      }
+
+      .yellow {
+        background: #ffff00;
+      }
+
+      .orange {
+        background: #ff9900;
+      }
+      .green {
+        background: #00ff00;
+      }
+
+      .blue {
+        background: #00ffff;
+      }
+
+      .purple {
+        background: #000;
+      }
+    </style>
+<head>
+	
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCvjKhe97O4q1URfRdBsuPof8kAZtsBPwU&libraries=geometry,visualization&callback=initialize">
+    </script>
+
+<script>
+
+var map;
+    var layer_0;
+   
+    function initialize() {
+
+        var styles = [
+
+  {
+    "featureType": "water",
+    "stylers": [
+      { "visibility": "off" }
+    ]
+  },{
+    "featureType": "landscape.natural.landcover",
+    "stylers": [
+      { "visibility": "on" },
+      { "invert_lightness": true }
+    ]
+  }
+
+
+]
+
+var styledMap = new google.maps.StyledMapType(styles,
+    {name: "Styled Map"});
+
+
+  var mapProp = {
+   // center:new google.maps.LatLng(20, -15),
+    //center:new google.maps.LatLng(12, 78),
+    center:new google.maps.LatLng(13.221333, 63.388938),
+    zoom:2,
+    mapTypeIds:[google.maps.MapTypeId.TERRAIN, 'map_style']
+  };
+
+      map = new google.maps.Map(document.getElementById('map-canvas'), {
+        center: new google.maps.LatLng(12, 78),
+        zoom: 7,
+        minZoom: 7,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      });
+      layer_0 = new google.maps.FusionTablesLayer({
+        query: {
+          select: "col2",
+          from: "1qkZLQZbAloDkCjYETk2oAYA6o2vE_LkNd5Woh107"
+        },
+        map: map
+      });
+    
+         var legend = document.createElement('div');
+        legend.id = 'legend';
+        var content = [];
+        content.push('<h3>GHI</h3>');
+        content.push('<p><div class="color red"></div>6.5</p>');
+        content.push('<p><div class="color orange"></div>6</p>');
+        content.push('<p><div class="color yellow"></div>5.5</p>');
+        content.push('<p><div class="color green"></div>5</p>');
+        content.push('<p><div class="color blue"></div>4.5</p>');
+        legend.innerHTML = content.join('');
+        legend.index = 1;
+        map.controls[google.maps.ControlPosition.RIGHT_CENTER].push(legend);
+
+
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+</script>
+</head>
+
+<body>
+<div id="map-canvas"></div>
+
+
+</body>
+</html>
